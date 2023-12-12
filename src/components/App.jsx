@@ -7,12 +7,7 @@ import { Filter } from './Filter/Filter';
 
 export class App extends Component {
   state = {
-    contacts: [
-      { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
-      { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
-      { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
-      { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
-    ],
+    contacts: [],
     filter: '',
   };
 
@@ -24,7 +19,8 @@ export class App extends Component {
     const { name } = data;
     const { contacts } = this.state;
     // console.log('data :>> ', data);
-    const findName = contact => contact.name === name;
+    const findName = contact =>
+      contact.name.toLowerCase() === name.toLowerCase();
 
     if (contacts.some(findName)) {
       alert(`${name} is already in contacts.`);
@@ -47,10 +43,24 @@ export class App extends Component {
   };
 
   componentDidMount() {
-    localStorage.setItem('contactsSafe', JSON.stringify(this.state.contacts));
+    const testData = [
+      { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
+      { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
+      { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
+      { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
+    ];
+    let contactsSafe = localStorage.getItem('contactsSafe');
+    console.log(contactsSafe);
+    if (contactsSafe) {
+      this.setState({ contacts: JSON.parse(contactsSafe) });
+    } else {
+      this.setState({ contacts: testData });
+    }
   }
-  componentDidUpdate(prevProps, prevState) {
-    localStorage.setItem('contactsSafe', JSON.stringify(this.state.contacts));
+  componentDidUpdate(prevState) {
+    if (prevState.contacts !== this.state.contacts) {
+      localStorage.setItem('contactsSafe', JSON.stringify(this.state.contacts));
+    }
   }
 
   render() {
