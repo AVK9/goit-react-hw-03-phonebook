@@ -1,5 +1,8 @@
 import { Component } from 'react';
 import { nanoid } from 'nanoid';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
 import { Title } from './Title/Title';
 import { ContactForm } from './ContactForm/ContactForm';
 import { ContactList } from './ContactList/ContactList';
@@ -23,8 +26,7 @@ export class App extends Component {
       contact.name.toLowerCase() === name.toLowerCase();
 
     if (contacts.some(findName)) {
-      alert(`${name} is already in contacts.`);
-      return;
+      return toast.warn(`${name} is already in contacts.`);
     } else {
       this.setState(prev => prev.contacts.push(newContact));
       // console.log(newContact);
@@ -50,7 +52,6 @@ export class App extends Component {
       { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
     ];
     let contactsSafe = localStorage.getItem('contactsSafe');
-    console.log(contactsSafe);
     if (contactsSafe) {
       this.setState({ contacts: JSON.parse(contactsSafe) });
     } else {
@@ -70,6 +71,7 @@ export class App extends Component {
 
     return (
       <>
+        <ToastContainer autoClose={1500} />
         <Title text="Phonebook" />
         <ContactForm onSubmit={this.formSubmitHandler} />
         <Title text="Contacts" />

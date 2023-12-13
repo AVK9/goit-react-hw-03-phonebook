@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import css from './ContactForm.module.css';
 import { Icon } from '../img/Icon';
+import { IMaskInput } from 'react-imask';
 
 export class ContactForm extends Component {
   state = {
@@ -25,7 +26,6 @@ export class ContactForm extends Component {
       number: '',
     });
   };
-
   render() {
     return (
       <div>
@@ -44,6 +44,7 @@ export class ContactForm extends Component {
                 // placeholder="Ivan Bereza"
                 required
               />
+
               <Icon id="user" className={css.iconsInput} />
             </div>
 
@@ -51,14 +52,21 @@ export class ContactForm extends Component {
               Number
             </label>
             <div className={css.boxInput}>
-              <input
+              {/* <input
                 type="tel"
                 name="number"
                 value={this.state.number}
                 onChange={this.handleChange}
-                pattern="\+?\d{1,4}?[ .\-\s]?\(?\d{1,3}?\)?[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,9}"
+                pattern="/\+38\(\d{3}\)\d{3}-\d{2}-\d{2}/"
                 required
-                // placeholder="sdf"
+              /> */}
+              <IMaskInput
+                type="tel"
+                name="number"
+                mask={'+38 (000) 000-00-00'}
+                value={this.state.number}
+                onChange={this.handleChange}
+                required
               />
               <Icon id="phone" className={css.iconsInput} />
             </div>
